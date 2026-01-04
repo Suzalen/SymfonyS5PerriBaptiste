@@ -86,12 +86,14 @@ class ProductFlowController extends AbstractController
              if ($currentStep >= 3 && !$needsConfirmation) {
                  // FINISH
                  $this->saveAndClear($entityManager, $session, $flowId, $product);
+                 $this->addFlash('success', 'Produit enregistré avec succès.');
                  return $this->redirectToRoute('app_admin_product_index');
              }
              
              if ($currentStep >= 4) {
                  // FINISH
                  $this->saveAndClear($entityManager, $session, $flowId, $product);
+                 $this->addFlash('success', 'Produit enregistré avec succès.');
                  return $this->redirectToRoute('app_admin_product_index');
              }
 
