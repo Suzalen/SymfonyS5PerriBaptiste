@@ -1,0 +1,43 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Nouvel Utilisateur{% endblock %}
+{% block header %}Nouvel Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {{ form_start(form) }}
+            <div class="mb-4">
+                {{ form_row(form.email, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            </div>
+            <div class="mb-4">
+                {{ form_row(form.firstname, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            </div>
+            <div class="mb-4">
+                {{ form_row(form.lastname, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(form.roles) }}
+                <div class="mt-2">
+                    {% for child in form.roles %}
+                        <div class="flex items-center mb-2">
+                            {{ form_widget(child, {'attr': {'class': 'form-checkbox h-5 w-5 text-gray-600'}}) }}
+                            {{ form_label(child, null, {'label_attr': {'class': 'ml-2 text-gray-700'}}) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="mb-4">
+                {{ form_row(form.plainPassword, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+            </div>
+
+            <div class="flex items-center justify-between mt-6">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Enregistrer
+                </button>
+                <a href="{{ path('app_admin_user_index') }}" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                    Retour
+                </a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Produit (Étape {{ currentStep }}){% endblock %}
+{% block header %}
+    {% if currentStep == 1 %}Type de Produit{% endif %}
+    {% if currentStep == 2 %}Détails du Produit{% endif %}
+    {% if currentStep == 3 %}Logistique / Licence{% endif %}
+    {% if currentStep == 4 %}Confirmation{% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="max-w-3xl mx-auto">
+        <!-- Progress -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between text-sm text-gray-600 font-medium">
+                <span>Début</span>
+                <span>Confirmation</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ (currentStep / totalSteps) * 100 }}%"></div>
+            </div>
+            <div class="text-center mt-2 text-sm text-gray-500">
+                Étape {{ currentStep }} sur {{ totalSteps }}
+            </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            
+            {% if currentStep == 4 %}
+                <div class="mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <p class="font-bold text-yellow-700">Attention</p>
+                    <p class="text-yellow-600">Le prix de ce produit est élevé ({{ product.price }} €). Veuillez confirmer.</p>
+                </div>
+                <!-- Summary of Input -->
+                <div class="mb-4 text-sm bg-gray-50 p-4 rounded">
+                    <p><strong>Nom:</strong> {{ product.name }}</p>
+                    <p><strong>Description:</strong> {{ product.description }}</p>
+                    <p><strong>Type:</strong> {{ product.type }}</p>
+                    {% if product.type == 'physical' %}
+                        <p><strong>Poids:</strong> {{ product.weight }} kg</p>
+                        <p><strong>Dimensions:</strong> {{ product.dimensions }}</p>
+                        <p><strong>Stock:</strong> {{ product.stock }}</p>
+                    {% else %}
+                        <p><strong>Licence:</strong> {{ product.licenseDetails }}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+
+                <div class="flex items-center justify-between mt-8">
+                    {% if currentStep > 1 %}
+                    <a href="{{ path('app_admin_product_flow', {'step': currentStep - 1, 'id': product.id}) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Précédent
+                    </a>
+                    {% else %}
+                    <a href="{{ path('app_admin_product_index') }}" class="text-gray-600 hover:underline">Annuler</a>
+                    {% endif %}
+
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        {% if currentStep == totalSteps %}Valider{% else %}Suivant{% endif %}
+                    </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -42,6 +42,17 @@ class AppFixtures extends Fixture
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $manager->persist($user);
 
+        // Clients
+        for ($i = 1; $i <= 5; $i++) {
+            $client = new \App\Entity\Client();
+            $client->setFirstname('ClientFirst' . $i);
+            $client->setLastname('ClientLast' . $i);
+            $client->setEmail('client' . $i . '@test.com');
+            $client->setPhoneNumber('010203040' . $i);
+            $client->setAddress($i . ' Rue du Test');
+            $manager->persist($client);
+        }
+
         $manager->flush();
     }
 }

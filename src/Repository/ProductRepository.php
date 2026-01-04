@@ -20,4 +20,15 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+
+    /**
+     * @return Product[] Returns an array of Product objects sorted by price descending
+     */
+    public function findAllSortedByPriceDesc(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.price', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

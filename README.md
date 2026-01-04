@@ -1,65 +1,59 @@
-# Symfony 7.4 Boilerplate 
+# Backoffice Project
 
-Attention : Il vous faut PHP >=8.2 pour faire fonctionner ce projet.
+## Description
 
-## Initialisation de votre IDE
+Ce projet est un backoffice web développé avec Symfony 7.4, permettant la gestion des Utilisateurs, Produits et Clients.
 
-### PHPStorm
+## Installation
 
-1. Ouvrir le projet dans PHPStorm
-2. Installer les extensions Twig et Symfony
-    - Aller dans File > Settings > Plugins
-    - Installer les extensions (Twig, EA Inspection, PHP Annotations, .env files support)
-
-### Visual Studio Code
-
-1. Ouvrir le projet dans Visual Studio Code
-2. Installer les extensions pour PHP, Twig et Symfony
-    - Aller dans l'onglet Extensions
-    - Installer les extensions (whatwedo.twig, TheNouillet.symfony-vscode, DEVSENSE.phptools-vscode, 
-    bmewburn.vscode-intelephense-client, zobo.php-intellisense)
-
-## Installation avec IDX
-
-1. Fork le projet sur votre compte GitHub
-2. Importer le projet depuis votre GitHub sur IDX
-3. Le projet est déjà lancé il suffit d'aller dans l'onglet du terminal avec `start` puis cliquer sur le lien `localhost`
-4. Lancer la commande `composer i` pour installer les dépendances du projet.
-5. Pour accéder à la base de données `mysql -u root`
-6. Dans un fichier à la racine `.env.local` mettre cette variable d'environnement 
-`DATABASE_URL="mysql://root:@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"`
-
-## Installation en local
-
-1. Cloner le projet
-2. Installer PHP >= 8.2 et Composer (Sur votre machine utiliser XAMPP pour windows, MAMP pour mac ou LAMP pour linux bien prendre la version PHP 8.2)
-3. Installer les dépendances du projet avec la commande `composer install`
-4. Faire un virtual host sur votre serveur local (XAMPP par exemple pour Windows) 
- - Ouvrir le fichier `httpd-vhosts.conf` dans le répertoire `C:\xampp\apache\conf\extra`
-    - Ajouter le code suivant à la fin du fichier
+1.  Cloner le dépôt.
+2.  Configurer la base de données dans `.env.local` :
+    ```bash
+    DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
     ```
-    <VirtualHost *>
-        DocumentRoot "C:\Users\votre_username\Documents\iut\symfony_base\public"
-        ServerName symfony_base.local
-        
-        <Directory "C:\Users\votre_username\Documents\iut\symfony_base\public">
-            AllowOverride All
-            Require all granted
-        </Directory>
-    </VirtualHost>
+3.  Installer les dépendances :
+    ```bash
+    composer install
     ```
-    - Ajouter l'adresse IP de votre machine dans le fichier `C:\Windows\System32\drivers\etc\hosts`
+4.  Compiler les assets Tailwind CSS :
+    ```bash
+    php bin/console tailwind:build
     ```
-    127.0.0.1 symfony_base.local
+5.  Créer la base de données et charger les données de test (Fixtures) :
+    ```bash
+    php bin/console doctrine:database:create
+    php bin/console doctrine:migrations:migrate
+    php bin/console doctrine:fixtures:load
     ```
-    - Redémarrer Apache
-    - Accéder à l'adresse `symfony_base.local` dans votre navigateur
 
-4. Créer un fichier `.env.local` à la racine du projet et ajouter la configuration de la base de données
-5. Créer la base de données avec la commande `php bin/console doctrine:database:create`
+## Fonctionnalités
 
-## Utilisation
+### Authentification
+- Connexion via `/login`.
+- Rôles : ADMIN, MANAGER, USER.
 
-- N'hésitez pas à consulter la documentation de Symfony pour plus d'informations sur l'utilisation du framework : https://symfony.com/doc/current/index.html
+### Gestion des Utilisateurs (Admin)
+- Liste, Ajout, Modification, Suppression.
+- Accès restreint aux administrateurs.
 
-- Notez comment fonctionne votre projet dans le fichier README.md et mettez à jour ce fichier au fur et à mesure de l'avancement de votre projet pour aider les autres développeurs à comprendre comment fonctionne votre projet.
+### Gestion des Produits
+- Liste visible par tous les utilisateurs connectés.
+- Tri par prix décroissant.
+- Export CSV.
+- **Formulaire Multi-étapes** pour l'ajout/modification (Admin uniquement) :
+    - Étape 1 : Type (Physique/Numérique).
+    - Étape 2 : Détails.
+    - Étape 3 : Logistique ou Licence.
+    - Étape 4 : Confirmation (si prix élevé).
+- Import CSV via commande CLI : `php bin/console app:import-products products.csv`
+
+### Gestion des Clients (Admin/Manager)
+- Liste, Ajout, Modification.
+- Commande CLI pour création interactive : `php bin/console app:create-client`.
+
+## Tests
+
+Exécuter les tests unitaires :
+```bash
+php bin/phpunit
+```

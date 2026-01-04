@@ -23,6 +23,21 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $type = 'physical'; // 'physical' or 'digital'
+
+    #[ORM\Column(nullable: true)]
+    private ?float $weight = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dimensions = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $stock = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $licenseDetails = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +75,66 @@ class Product
     public function setPrice(float $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getWeight(): ?float
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(?float $weight): static
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getDimensions(): ?string
+    {
+        return $this->dimensions;
+    }
+
+    public function setDimensions(?string $dimensions): static
+    {
+        $this->dimensions = $dimensions;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): static
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getLicenseDetails(): ?string
+    {
+        return $this->licenseDetails;
+    }
+
+    public function setLicenseDetails(?string $licenseDetails): static
+    {
+        $this->licenseDetails = $licenseDetails;
 
         return $this;
     }
