@@ -18,7 +18,10 @@ class ProductTypeStepType extends AbstractType
                     'Produit Numérique' => 'digital',
                 ],
                 'expanded' => true,
+                'multiple' => false,
                 'label' => 'Type de produit',
+                'label_attr' => ['class' => 'radio-inline mr-4'],
+                'row_attr' => ['class' => 'gap-4'],
             ]);
     }
 

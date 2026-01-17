@@ -1,0 +1,39 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Importer des produits{% endblock %}
+{% block header %}Importer des produits{% endblock %}
+
+{% block body %}
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg max-w-2xl mx-auto">
+        <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Import CSV
+            </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                Le fichier doit respecter le format : name, description, price
+            </p>
+        </div>
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+            {{ form_start(form) }}
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        {{ form_label(form.csv_file, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                        <div class="mt-1">
+                            {{ form_widget(form.csv_file) }}
+                        </div>
+                        {{ form_errors(form.csv_file) }}
+                    </div>
+
+                    <div class="pt-5">
+                         {{ form_widget(form.import) }}
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+        <div class="bg-gray-50 px-4 py-4 sm:px-6">
+             <a href="{{ path('app_admin_product_index') }}" class="text-indigo-600 hover:text-indigo-900">
+                &larr; Retour à la liste
+             </a>
+        </div>
+    </div>
+{% endblock %}

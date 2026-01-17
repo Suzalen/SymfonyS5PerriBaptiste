@@ -14,9 +14,21 @@ class ProductLogisticsStepType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('weight', NumberType::class, ['label' => 'Poids (kg)', 'required' => false])
-            ->add('dimensions', TextType::class, ['label' => 'Dimensions (LxHxP)', 'required' => false])
-            ->add('stock', IntegerType::class, ['label' => 'Stock initial']);
+            ->add('weight', NumberType::class, [
+                'label' => 'Poids (kg)',
+                'required' => false,
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
+            ->add('dimensions', TextType::class, [
+                'label' => 'Dimensions',
+                'required' => false,
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
+            ->add('stock', IntegerType::class, [
+                'label' => 'Stock',
+                'required' => false,
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class ImportProductsCommand extends Command
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private \App\Service\ProductImporter $importer,
         #[Autowire('%kernel.project_dir%')] private string $projectDir
     ) {
         parent::__construct();
@@ -43,28 +43,13 @@ class ImportProductsCommand extends Command
             return Command::FAILURE;
         }
 
-        if (($handle = fopen($filePath, 'r')) !== false) {
-            $header = fgetcsv($handle); // Skip header or use it to map
-            // Assuming header is name, description, price
-
-            $count = 0;
-            while (($data = fgetcsv($handle)) !== false) {
-                if (count($data) < 3) continue;
-
-                $product = new Product();
-                $product->setName($data[0]);
-                $product->setDescription($data[1]);
-                $product->setPrice((float) $data[2]);
-                $product->setType('physical'); // Default
-
-                $this->entityManager->persist($product);
-                $count++;
-            }
-            fclose($handle);
-            $this->entityManager->flush();
-
+        try {
+            $count = $this->importer->import($filePath);
             $io->success(sprintf('%d products imported successfully.', $count));
             return Command::SUCCESS;
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
+            return Command::FAILURE;
         }
 
         $io->error('Unable to open file.');

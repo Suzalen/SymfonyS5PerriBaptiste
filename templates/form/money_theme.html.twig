@@ -1,0 +1,19 @@
+{% block money_widget %}
+    <div class="flex items-center gap-2">
+        {% set symbol = money_pattern|replace({'{{ widget }}': ''})|trim %}
+        {# Determine if symbol is prefix or suffix #}
+        {% if money_pattern|trim starts with '{{ widget }}' %}
+            {# Widget first, Symbol last #}
+            <div class="flex-grow">
+                {{ block('form_widget_simple') }}
+            </div>
+            <span class="text-gray-500 font-medium text-lg">{{ symbol|raw }}</span>
+        {% else %}
+            {# Symbol first #}
+            <span class="text-gray-500 font-medium text-lg">{{ symbol|raw }}</span>
+            <div class="flex-grow">
+                {{ block('form_widget_simple') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

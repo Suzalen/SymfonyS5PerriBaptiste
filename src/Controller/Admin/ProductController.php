@@ -45,5 +45,31 @@ class ProductController extends AbstractController
         return $this->redirectToRoute('app_admin_product_index');
     }
 
+    #[Route('/import', name: 'app_admin_product_import', methods: ['GET', 'POST'])]
+    public function import(\Symfony\Component\HttpFoundation\Request $request, \App\Service\ProductImporter $importer): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $form = $this->createForm(\App\Form\ProductImportType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $form->get('csv_file')->getData();
+
+            try {
+                $count = $importer->import($file->getPathname());
+                $this->addFlash('success', sprintf('%d produits importés avec succès.', $count));
+                return $this->redirectToRoute('app_admin_product_index');
+            } catch (\Exception $e) {
+                $this->addFlash('error', 'Erreur lors de l\'import: ' . $e->getMessage());
+            }
+        }
+
+        return $this->render('admin/product/import.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
     // New/Edit actions will be handled by ProductFlowController (or added here if we use flow)
 }

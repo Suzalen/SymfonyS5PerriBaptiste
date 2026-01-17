@@ -2,10 +2,14 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Client;
+use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+use Faker\Factory;
 
 class AppFixtures extends Fixture
 {
@@ -15,6 +19,8 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create();
+
         // Admin
         $admin = new User();
         $admin->setEmail('admin@example.com');
@@ -42,15 +48,36 @@ class AppFixtures extends Fixture
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
         $manager->persist($user);
 
-        // Clients
-        for ($i = 1; $i <= 5; $i++) {
-            $client = new \App\Entity\Client();
-            $client->setFirstname('ClientFirst' . $i);
-            $client->setLastname('ClientLast' . $i);
-            $client->setEmail('client' . $i . '@test.com');
-            $client->setPhoneNumber('010203040' . $i);
-            $client->setAddress($i . ' Rue du Test');
+        // Create 10 Clients
+        for ($i = 0; $i < 10; $i++) {
+            $client = new Client();
+            $client->setFirstname($faker->firstName);
+            $client->setLastname($faker->lastName);
+            $client->setEmail($faker->email);
+            $client->setCompany($faker->company);
+            $client->setPhoneNumber($faker->phoneNumber);
+            $client->setAddress($faker->address);
+            $client->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')));
             $manager->persist($client);
+        }
+
+        // Create 10 Products
+        for ($i = 0; $i < 10; $i++) {
+            $product = new Product();
+            $product->setName($faker->word . ' ' . $faker->word);
+            $product->setDescription($faker->sentence(10));
+            $product->setPrice($faker->randomFloat(2, 10, 500));
+            $product->setType($i % 2 === 0 ? 'physical' : 'digital');
+            
+            if ($product->getType() === 'physical') {
+                $product->setWeight($faker->randomFloat(2, 0.5, 50));
+                $product->setStock($faker->numberBetween(0, 100));
+                $product->setDimensions('10x20x30');
+            } else {
+                $product->setLicenseDetails('Standard License ' . $faker->year);
+            }
+            
+            $manager->persist($product);
         }
 
         $manager->flush();

@@ -16,12 +16,33 @@ class ClientType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname', TextType::class, ['label' => 'Prénom'])
-            ->add('lastname', TextType::class, ['label' => 'Nom'])
-            ->add('email', EmailType::class, ['label' => 'Email'])
-            ->add('phoneNumber', TelType::class, ['label' => 'Téléphone', 'required' => false])
-            ->add('company', TextType::class, ['label' => 'Entreprise', 'required' => false])
-            ->add('address', TextareaType::class, ['label' => 'Adresse', 'required' => false])
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom',
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
+            ->add('phoneNumber', TelType::class, [
+                'label' => 'Téléphone',
+                'required' => false,
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
+            ->add('company', TextType::class, [
+                'label' => 'Entreprise',
+                'required' => false,
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
+            ->add('address', TextareaType::class, [
+                'label' => 'Adresse',
+                'required' => false,
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2'],
+            ])
         ;
     }
 

@@ -16,6 +16,7 @@ class ProductLicenseStepType extends AbstractType
             ->add('licenseDetails', TextareaType::class, [
                 'label' => 'Détails de la licence / Accès',
                 'constraints' => [new NotBlank()],
+                'attr' => ['class' => 'block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-2', 'rows' => 4],
             ]);
     }
 
